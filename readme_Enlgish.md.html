@@ -7,8 +7,9 @@
   <li><a href="#technologies">Technologies Used</a></li>
   <li><a href="#getting-started">Getting Started</a></li>
   <li><a href="#setup-and-installation">Setup and Installation</a></li>
-  <li><a href="#api-endpoints">API Endpoints</a></li>
+  <li><a href="#tables">Creating Tables in Postgres</a></li>
   <li><a href="#hashing">Instructions for Hashing a Password and Creating an Admin</a></li>
+  <li><a href="#api-endpoints">API Endpoints</a></li>
   <li><a href="#usage">Usage</a></li>
   <li><a href="#error-handling">Error Handling</a></li>
 </ul>
@@ -68,6 +69,66 @@ PORT=5000
   <li>Your server should now be running on <code>http://localhost:5000</code></li>
 </ol>
 
+<h2 id="tables">Creating Tables in Postgres</h2> 
+
+<pre><code>
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,         -- Auto-incrementing value and primary key
+  username VARCHAR(255) NOT NULL, -- String (maximum length of 255 characters), cannot be NULL
+  email VARCHAR(255) NOT NULL UNIQUE, -- String (maximum length of 255 characters), cannot be NULL, unique value
+  password VARCHAR(255) NOT NULL, -- String (maximum length of 255 characters), cannot be NULL
+  isAdmin BOOLEAN DEFAULT false   -- Boolean type, defaults to false
+);
+</code></pre>
+
+<pre><code>
+CREATE TABLE hotels (
+  id SERIAL PRIMARY KEY,           -- Auto-incrementing value and primary key
+  name VARCHAR(255) NOT NULL,      -- String (maximum length of 255 characters), cannot be NULL
+  location VARCHAR(255) NOT NULL   -- String (maximum length of 255 characters), cannot be NULL
+);
+</code></pre>
+
+<pre><code>
+CREATE TABLE rooms (
+  id SERIAL PRIMARY KEY,           -- Auto-incrementing value and primary key
+  hotelId INTEGER NOT NULL,        -- Integer, cannot be NULL
+  number VARCHAR(255) NOT NULL,    -- String (maximum length of 255 characters), cannot be NULL
+  type VARCHAR(255) NOT NULL,      -- String (maximum length of 255 characters), cannot be NULL
+  price FLOAT NOT NULL             -- Floating point number, cannot be NULL
+);
+</code></pre>
+
+<pre><code>
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,         -- Auto-incrementing value and primary key
+  userId INTEGER NOT NULL,       -- Integer, cannot be NULL
+  roomId INTEGER NOT NULL,       -- Integer, cannot be NULL
+  startDate DATE NOT NULL,       -- Start date of the booking, cannot be NULL
+  endDate DATE NOT NULL          -- End date of the booking, cannot be NULL
+);
+</code></pre>
+
+<h2 id="hashing">Instructions for Hashing a Password and Creating an Admin</h2>
+
+<h3>Running the Script to Hash a Password</h3>
+<p>Write the password in the file <code>scripts/hashPassword.js</code> and run it via Node.js:</p>
+
+<pre><code>node scripts/hashPassword.js</code></pre>
+
+<p>After running the script, you will see the hashed password in the console. Example:</p>
+
+<pre><code>Hashed password: $2b$10$eG6Z5R/5.sJhKKLz.mQZOOg7A4yIavHYmVlA3fwW4Og7cB2bI/poa</code></pre>
+
+<h3>Use the Hashed Password in an SQL Query</h3>
+<p>Now you can use the hashed password in your SQL query to create an admin:</p>
+
+<pre><code>INSERT INTO users (username, email, password, "isAdmin", "createdAt", "updatedAt")
+VALUES ('admin', 'admin@example.com', '$2b$10$eG6Z5R/5.sJhKKLz.mQZOOg7A4yIavHYmVlA3fwW4Og7cB2bI/poa', true, NOW(), NOW());</code></pre>
+
+<h3>Verify Admin Registration</h3>
+<p>After executing the SQL query, your new admin will be added to the database with the hashed password.</p>
+
 <h2 id="api-endpoints">API Endpoints</h2>
 <p>Below is a list of available API endpoints:</p>
 
@@ -99,27 +160,6 @@ PORT=5000
   <li><strong>GET</strong> <code>/api/bookings</code> - Get all bookings (Admin only)</li>
   <li><strong>DELETE</strong> <code>/api/bookings/:id</code> - Cancel a booking</li>
 </ul>
-
-<h2 id="hashing">Instructions for Hashing a Password and Creating an Admin</h2>
-
-<h3>Running the Script to Hash a Password</h3>
-<p>Write the password in the file <code>scripts/hashPassword.js</code> and run it via Node.js:</p>
-
-<pre><code>node scripts/hashPassword.js</code></pre>
-
-<p>After running the script, you will see the hashed password in the console. Example:</p>
-
-<pre><code>Hashed password: $2b$10$eG6Z5R/5.sJhKKLz.mQZOOg7A4yIavHYmVlA3fwW4Og7cB2bI/poa</code></pre>
-
-<h3>Use the Hashed Password in an SQL Query</h3>
-<p>Now you can use the hashed password in your SQL query to create an admin:</p>
-
-<pre><code>INSERT INTO users (username, email, password, "isAdmin", "createdAt", "updatedAt")
-VALUES ('admin', 'admin@example.com', '$2b$10$eG6Z5R/5.sJhKKLz.mQZOOg7A4yIavHYmVlA3fwW4Og7cB2bI/poa', true, NOW(), NOW());</code></pre>
-
-<h3>Verify Admin Registration</h3>
-<p>After executing the SQL query, your new admin will be added to the database with the hashed password.</p>
-
 
 <h2 id="usage">Usage</h2>
 <p>To interact with the API, you can use tools like <a href="https://www.postman.com/">Postman</a> or <a href="https://curl.se/">cURL</a>. Here are some examples of how to make requests:</p>
@@ -187,6 +227,3 @@ GET /api/hotels
 
 <h2>Contact</h2>
 <p>For any inquiries or questions, please contact me at <a href="mailto:ajzikk@gmail.com">ajzikk@gmail.com</a>.</p>
-
-</body>
-</html>

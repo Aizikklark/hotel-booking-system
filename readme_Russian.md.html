@@ -7,8 +7,9 @@
   <li><a href="#technologies">Используемые технологии</a></li>
   <li><a href="#getting-started">Начало работы</a></li>
   <li><a href="#setup-and-installation">Установка и настройка</a></li>
-  <li><a href="#api-endpoints">Эндпоинты API</a></li>
+  <li><a href="#tables">Создаём таблицы в Postgres</a></li>
   <li><a href="#hashing">Инструкция по хешированию пароля и созданию администратора</a></li>
+  <li><a href="#api-endpoints">Эндпоинты API</a></li>
   <li><a href="#usage">Использование</a></li>
   <li><a href="#error-handling">Обработка ошибок</a></li>
 </ul>
@@ -68,6 +69,67 @@ PORT=5000
   <li>Ваш сервер должен быть запущен по адресу <code>http://localhost:5000</code></li>
 </ol>
 
+<h2 id="tables">Создаём таблицы в Postgres</h2> 
+
+<pre><code>
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,         -- Автоматическое увеличение значения и первичный ключ
+  username VARCHAR(255) NOT NULL, -- Строка (максимальная длина 255 символов), не может быть NULL
+  email VARCHAR(255) NOT NULL UNIQUE, -- Строка (максимальная длина 255 символов), не может быть NULL, уникальное значение
+  password VARCHAR(255) NOT NULL, -- Строка (максимальная длина 255 символов), не может быть NULL
+  isAdmin BOOLEAN DEFAULT false   -- Логический тип, по умолчанию false
+);
+</code></pre>
+
+<pre><code>
+CREATE TABLE hotels (
+  id SERIAL PRIMARY KEY,           -- Автоматическое увеличение значения и первичный ключ
+  name VARCHAR(255) NOT NULL,      -- Строка (максимальная длина 255 символов), не может быть NULL
+  location VARCHAR(255) NOT NULL   -- Строка (максимальная длина 255 символов), не может быть NULL
+);
+</code></pre>
+
+<pre><code>
+CREATE TABLE rooms (
+  id SERIAL PRIMARY KEY,           -- Автоматическое увеличение значения и первичный ключ
+  hotelId INTEGER NOT NULL,        -- Целое число, не может быть NULL
+  number VARCHAR(255) NOT NULL,    -- Строка (максимальная длина 255 символов), не может быть NULL
+  type VARCHAR(255) NOT NULL,      -- Строка (максимальная длина 255 символов), не может быть NULL
+  price FLOAT NOT NULL             -- Число с плавающей точкой, не может быть NULL
+);
+</code></pre>
+
+<pre><code>
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,         -- Автоматическое увеличение значения и первичный ключ
+  userId INTEGER NOT NULL,       -- Целое число, не может быть NULL
+  roomId INTEGER NOT NULL,       -- Целое число, не может быть NULL
+  startDate DATE NOT NULL,       -- Дата начала бронирования, не может быть NULL
+  endDate DATE NOT NULL          -- Дата окончания бронирования, не может быть NULL
+);
+</code></pre>
+
+<h2 id="hashing">Инструкция по хешированию пароля и созданию администратора</h2>
+
+<h3>Запуск скрипта для хеширования пароля</h3>
+<p>Запишите пароль в файл <code>scripts/hashPassword.js</code> и запустите его через Node.js:</p>
+
+<pre><code>node scripts/hashPassword.js</code></pre>
+
+<p>После выполнения скрипта вы увидите захешированный пароль в консоли. Пример:</p>
+
+<pre><code>Захешированный пароль: $2b$10$eG6Z5R/5.sJhKKLz.mQZOOg7A4yIavHYmVlA3fwW4Og7cB2bI/poa</code></pre>
+
+<h3>Используйте захешированный пароль в SQL-запросе</h3>
+<p>Теперь вы можете использовать полученный захешированный пароль в вашем SQL-запросе для создания администратора:</p>
+
+<pre><code>INSERT INTO users (username, email, password, "isAdmin", "createdAt", "updatedAt")
+VALUES ('admin', 'admin@example.com', '$2b$10$eG6Z5R/5.sJhKKLz.mQZOOg7A4yIavHYmVlA3fwW4Og7cB2bI/poa', true, NOW(), NOW());</code></pre>
+
+<h3>Проверка регистрации администратора</h3>
+<p>После выполнения SQL-запроса ваш новый администратор будет добавлен в базу данных с захешированным паролем.</p>
+
+
 <h2 id="api-endpoints">Эндпоинты API</h2>
 <p>Ниже представлен список доступных API эндпоинтов:</p>
 
@@ -99,26 +161,6 @@ PORT=5000
   <li><strong>GET</strong> <code>/api/bookings</code> - Получение всех бронирований (только для администратора)</li>
   <li><strong>DELETE</strong> <code>/api/bookings/:id</code> - Отмена бронирования</li>
 </ul>
-
-<h2 id="hashing">Инструкция по хешированию пароля и созданию администратора</h2>
-
-<h3>Запуск скрипта для хеширования пароля</h3>
-<p>Запишите пароль в файл <code>scripts/hashPassword.js</code> и запустите его через Node.js:</p>
-
-<pre><code>node scripts/hashPassword.js</code></pre>
-
-<p>После выполнения скрипта вы увидите захешированный пароль в консоли. Пример:</p>
-
-<pre><code>Захешированный пароль: $2b$10$eG6Z5R/5.sJhKKLz.mQZOOg7A4yIavHYmVlA3fwW4Og7cB2bI/poa</code></pre>
-
-<h3>Используйте захешированный пароль в SQL-запросе</h3>
-<p>Теперь вы можете использовать полученный захешированный пароль в вашем SQL-запросе для создания администратора:</p>
-
-<pre><code>INSERT INTO users (username, email, password, "isAdmin", "createdAt", "updatedAt")
-VALUES ('admin', 'admin@example.com', '$2b$10$eG6Z5R/5.sJhKKLz.mQZOOg7A4yIavHYmVlA3fwW4Og7cB2bI/poa', true, NOW(), NOW());</code></pre>
-
-<h3>Проверка регистрации администратора</h3>
-<p>После выполнения SQL-запроса ваш новый администратор будет добавлен в базу данных с захешированным паролем.</p>
 
 <h2 id="usage">Использование</h2>
 
@@ -188,5 +230,3 @@ GET /api/hotels
 <h2>Контакты</h2>
 <p>Если у вас есть вопросы или предложения, пожалуйста, свяжитесь со мной по электронной почте: <a href="mailto:ajzikk@gmail.com">ajzikk@gmail.com</a>.</p>
 
-</body>
-</html>
