@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Hotel Booking System - README</title>
-</head>
-<body>
-
 <h1>Hotel Booking System</h1>
 <p>Welcome to the Hotel Booking System project! This is a RESTful API built with Node.js, TypeScript, Express.js, PostgreSQL, and Sequelize ORM. The API allows users to manage hotel bookings, rooms, and hotels. It also includes user authentication and authorization.</p>
 
