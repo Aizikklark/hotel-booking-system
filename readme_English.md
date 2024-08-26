@@ -41,13 +41,10 @@
 <h3 id="setup-and-installation">Setup and Installation</h3>
 <ol>
   <li>Clone the repository:</li>
-  <pre><code>git clone https://github.com/yourusername/hotel-booking-system.git</code></pre>
+  <pre><code>git clone https://github.com/Aizikklark/hotel-booking-system.git</code></pre>
   
   <li>Navigate to the project directory:</li>
   <pre><code>cd hotel-booking-system</code></pre>
-  
-  <li>Install dependencies:</li>
-  <pre><code>npm install</code></pre>
   
   <li>Create a PostgreSQL database and configure your environment variables in a <code>.env</code> file:</li>
   <pre><code>

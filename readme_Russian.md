@@ -41,7 +41,7 @@
 <h3 id="setup-and-installation">Установка и настройка</h3>
 <ol>
   <li>Клонируйте репозиторий:</li>
-  <pre><code>git clone https://github.com/yourusername/hotel-booking-system.git</code></pre>
+  <pre><code>git clone https://github.com/Aizikklark/hotel-booking-system.git</code></pre>
   
   <li>Перейдите в директорию проекта:</li>
   <pre><code>cd hotel-booking-system</code></pre>
@@ -59,9 +59,6 @@ DB_NAME=hotel_booking
 JWT_SECRET=your_jwt_secret
 PORT=5000
   </code></pre>
-  
-  <li>Выполните миграции базы данных:</li>
-  <pre><code>npx sequelize-cli db:migrate</code></pre>
   
   <li>Запустите сервер разработки:</li>
   <pre><code>npx ts-node src/app.ts</code></pre>
