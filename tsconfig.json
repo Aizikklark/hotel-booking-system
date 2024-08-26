@@ -16,6 +16,14 @@
       "src/**/*",
       "src/types/express.d.ts"
     ],
-    "exclude": ["node_modules"]
+    "exclude": [
+      "node_modules",                         // Исключить node_modules
+      "coverage",                             // Исключить директорию coverage
+      "dist",                                 // Исключить директорию dist
+      "**/*.test.ts",                         // Исключить все тестовые файлы
+      "**/__tests__/**",                      // Исключить директорию __tests__ (если такая есть)
+      "scripts",                              // Исключить скрипты, если они не нужны в компиляции
+      ".github"                               // Исключить файлы GitHub Actions
+    ]
   }
   

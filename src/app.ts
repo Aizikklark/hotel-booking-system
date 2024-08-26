@@ -1,6 +1,5 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import sequelize from './config/database';
 import userRoutes from './routes/userRoutes';
 import hotelRoutes from './routes/hotelRoutes';
 import roomRoutes from './routes/roomRoutes';
