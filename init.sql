@@ -1,0 +1,29 @@
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  "password" VARCHAR(255) NOT NULL,
+  "isAdmin" BOOLEAN DEFAULT false
+);
+
+CREATE TABLE hotels (
+  id SERIAL PRIMARY KEY,
+  "name" VARCHAR(255) NOT NULL,
+  "location" VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE rooms (
+  id SERIAL PRIMARY KEY,
+  "hotelId" INTEGER NOT NULL REFERENCES hotels(id),
+  "number" VARCHAR(255) NOT NULL,
+  "type" VARCHAR(255) NOT NULL,
+  price FLOAT NOT NULL
+);
+
+CREATE TABLE bookings (
+  id SERIAL PRIMARY KEY,
+  "userId" INTEGER NOT NULL REFERENCES users(id),
+  "roomId" INTEGER NOT NULL REFERENCES rooms(id),
+  "startDate" DATE NOT NULL,
+  "endDate" DATE NOT NULL
+);

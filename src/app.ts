@@ -4,6 +4,7 @@ import userRoutes from './routes/userRoutes';
 import hotelRoutes from './routes/hotelRoutes';
 import roomRoutes from './routes/roomRoutes';
 import bookingRoutes from './routes/bookingRoutes';
+import sequelize from './config/database';
 
 dotenv.config();
 
@@ -28,7 +29,7 @@ app.use((err: any, req: any, res: any, next: any) => {
 const startServer = async () => {
   try {
     // Синхронизация базы данных
-    //await sequelize.sync({ force: true }); // Внимание: это удалит все существующие таблицы и пересоздаст их
+    await sequelize.sync({ force: true }); // Внимание: это удалит все существующие таблицы и пересоздаст их
     console.log('Database synchronized successfully.');
 
     // Запуск сервера после успешной синхронизации

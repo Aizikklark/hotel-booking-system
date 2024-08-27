@@ -1,7 +1,3 @@
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import User from './src/models/User';
-
 // Мокаем зависимости
 jest.mock('bcrypt', () => ({
   hash: jest.fn(),
