@@ -1,29 +1,33 @@
 {
-    "compilerOptions": {
-      "target": "ES6",
-      "module": "commonjs",
-      "strict": true,
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "forceConsistentCasingInFileNames": true,
-      "outDir": "./dist",
-      "baseUrl": ".",
-      "paths": {
-        "*": ["src/*"]
-      }
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "paths": {
+      "@src/*": ["src/*"],   // Для исходных файлов
+      "@types/*": ["types/*"] // Для файлов объявлений типов
     },
-    "include": [
-      "src/**/*",
-      "src/types/express.d.ts"
-    ],
-    "exclude": [
-      "node_modules",                         // Исключить node_modules
-      "coverage",                             // Исключить директорию coverage
-      "dist",                                 // Исключить директорию dist
-      "**/*.test.ts",                         // Исключить все тестовые файлы
-      "**/__tests__/**",                      // Исключить директорию __tests__ (если такая есть)
-      "scripts",                              // Исключить скрипты, если они не нужны в компиляции
-      ".github"                               // Исключить файлы GitHub Actions
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
     ]
-  }
-  
+  },
+  "include": [
+    "src/**/*",
+    "src/types"
+  ],
+  "exclude": [
+    "node_modules",                         // Исключить node_modules
+    "coverage",                             // Исключить директорию coverage
+    "dist",                                 // Исключить директорию dist
+    "**/*.test.ts",                         // Исключить все тестовые файлы
+    "**/__tests__/**",                      // Исключить директорию __tests__ (если такая есть)
+    "scripts",                              // Исключить скрипты, если они не нужны в компиляции
+    ".github"                               // Исключить файлы GitHub Actions
+  ]
+}

@@ -8,7 +8,8 @@
     "build": "tsc",
     "start:prod": "node dist/app.js",
     "clean": "rimraf dist",
-    "lint": "eslint . --fix"
+    "lint": "eslint . --fix",
+    "swagger": "npx ts-node src/swagger.ts"
   },
   "keywords": [],
   "author": "Aizikklark",
@@ -21,7 +22,9 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.12.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.3"
+    "sequelize": "^6.37.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
